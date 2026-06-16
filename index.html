@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kin-Keepers — Augmented Intelligence for Seniors and Carers</title>
+  <meta name="description" content="Kin-Keepers bridges the gap between seniors and compassionate care through augmented intelligence. Affordable caregivers from afar, AI assistants, and digital twin technology.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================
+       DESIGN SYSTEM
+    ========================================= */
+    :root {
+      /* ── Brand palette extracted from logo ──
+         Logo box navy:  #2A5080
+         Circuit teal:   #3CBFAA
+         Wordmark navy:  #1D3F6A
+      */
+      --bg-0: #060E1C;          /* deepest navy */
+      --bg-1: #0A1626;          /* section alt */
+      --bg-2: #0F1E34;          /* card base */
+      --bg-card: rgba(255,255,255,0.035);
+      --bg-card-hover: rgba(255,255,255,0.065);
+      --border: rgba(255,255,255,0.08);
+      --border-gold: rgba(60,191,170,0.24);   /* teal border */
+      --border-hover: rgba(255,255,255,0.16);
+
+      /* Primary accent — circuit-tree teal */
+      --gold: #3CBFAA;
+      --gold-lt: #52D4BE;
+      --gold-dim: rgba(60,191,170,0.13);
+
+      /* Secondary accent — sky blue complement */
+      --teal: #5BA8D8;
+      --teal-dim: rgba(91,168,216,0.11);
+
+      /* Logo navy used for glow surfaces */
+      --navy: #2A5080;
+      --navy-dim: rgba(42,80,128,0.25);
+
+      --txt: #E8F3FC;
+      --txt-dim: rgba(232,243,252,0.56);
+      --txt-muted: rgba(232,243,252,0.3);
+
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 22px;
+      --r-xl: 32px;
+      --r-pill: 9999px;
+
+      --sh-card: 0 8px 36px rgba(173,217,209,0.5), 0 2px 10px rgba(173,217,209,0.3);
+      --sh-gold: 0 0 60px rgba(60,191,170,0.2);
+      --sh-teal: 0 0 60px rgba(91,168,216,0.14);
+
+      --ease: cubic-bezier(0.16,1,0.3,1);
+      --t: 0.38s var(--ease);
+      --t-fast: 0.18s ease;
+
+      --max: 1340px;
+      --px: clamp(18px,5vw,72px);
+      --section-y: clamp(80px,10vw,144px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    em, i { font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-0);
+      color: var(--txt);
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: rgba(60,191,170,0.28); }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+
+    /* =========================================
+       UTILITIES
+    ========================================= */
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 var(--px); }
+    .section { padding: var(--section-y) 0; position: relative; }
+    .label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--gold);
+    }
+
+    /* Scroll reveal */
+    .rv, .rv-l, .rv-r {
+      opacity: 0;
+      transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+    }
+    .rv       { transform: translateY(36px); }
+    .rv-l     { transform: translateX(-36px); }
+    .rv-r     { transform: translateX(36px); }
+    .rv.in, .rv-l.in, .rv-r.in { opacity: 1; transform: translate(0,0); }
+    .d1 { transition-delay: 0.10s; }
+    .d2 { transition-delay: 0.20s; }
+    .d3 { transition-delay: 0.30s; }
+    .d4 { transition-delay: 0.40s; }
+    .d5 { transition-delay: 0.50s; }
+
+    /* =========================================
+       NAVIGATION
+    ========================================= */
+    .nav {
+      position: fixed; inset: 0 0 auto; z-index: 900;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px var(--px);
+      background: #ffffff;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      transition: background 0.4s ease, backdrop-filter 0.4s ease,
+                  border-color 0.4s ease, padding 0.4s ease;
+    }
+    .nav.stuck {
+      background: #ffffff;
+      border-bottom-color: rgba(0,0,0,0.1);
+      padding-top: 8px; padding-bottom: 8px;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 11px; flex-shrink: 0;
+    }
+    .nav-brand img { height: 38px; width: auto; }
+    .nav-brand-text { display: flex; flex-direction: column; gap: 2px; }
+    .nav-brand-name {
+      font-family: 'Raleway', sans-serif;
+      font-size: 19px; font-weight: 500; line-height: 1;
+    }
+    .nav-brand-sub {
+      font-size: 9.5px; color: var(--gold); letter-spacing: 0.06em; line-height: 1;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 30px; list-style: none;
+    }
+    .nav-links a {
+      font-size: 12.5px; font-weight: 500; color: #1D3F6A;
+      position: relative; transition: color var(--t-fast);
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--gold);
+      transform: scaleX(0); transform-origin: left; transition: transform var(--t);
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .btn-nav {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 20px; background: var(--gold); color: #060E1C;
+      border-radius: var(--r-pill); font-size: 12.5px; font-weight: 600;
+      transition: all var(--t); flex-shrink: 0;
+    }
+    .btn-nav:hover {
+      background: var(--gold-lt); transform: translateY(-1px);
+      box-shadow: 0 8px 28px rgba(60,191,170,0.4);
+    }
+
+    /* Hamburger */
+    .burger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 5px; background: none; border: none;
+    }
+    .burger span {
+      display: block; width: 22px; height: 1.5px;
+      background: #1D3F6A; transition: all var(--t);
+      transform-origin: center;
+    }
+    .burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile overlay */
+    .mob-nav {
+      position: fixed; inset: 0; z-index: 899;
+      background: rgba(5,7,13,0.97); backdrop-filter: blur(32px);
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 28px;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    .mob-nav.open { opacity: 1; visibility: visible; pointer-events: all; }
+    .mob-nav a {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(28px,5vw,42px); font-weight: 500;
+      color: var(--txt-dim); transition: color var(--t-fast); text-align: center;
+    }
+    .mob-nav a:hover { color: var(--gold); }
+
+    /* =========================================
+       HERO
+    ========================================= */
+    .hero {
+      position: relative; min-height: 100svh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 120px var(--px) 100px; overflow: hidden;
+      background: var(--bg-0);
+    }
+    /* Full-bleed video background */
+    .hero-video {
+      position: absolute; inset: 0; z-index: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      pointer-events: none;
+    }
+    /* Dark overlay so text stays legible over the video */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(
+        135deg,
+        rgba(6,14,28,0.82) 0%,
+        rgba(6,14,28,0.65) 50%,
+        rgba(6,14,28,0.50) 100%
+      );
+    }
+    /* Animated gradient mesh */
+    .hero-canvas {
+      position: absolute; inset: 0; z-index: 2; overflow: hidden;
+    }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(90px); will-change: transform;
+      animation: orb-drift 28s ease-in-out infinite;
+    }
+    .orb-a {
+      width: clamp(400px,60vw,700px); height: clamp(400px,60vw,700px);
+      background: radial-gradient(circle, rgba(42,80,128,0.35) 0%, transparent 68%);
+      top: -15%; right: -10%; animation-duration: 30s;
+    }
+    .orb-b {
+      width: clamp(300px,45vw,560px); height: clamp(300px,45vw,560px);
+      background: radial-gradient(circle, rgba(60,191,170,0.14) 0%, transparent 68%);
+      bottom: -10%; left: -8%; animation-delay: -10s; animation-duration: 22s;
+    }
+    .orb-c {
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(91,168,216,0.1) 0%, transparent 70%);
+      top: 40%; left: 38%; animation-delay: -18s; animation-duration: 36s;
+    }
+    @keyframes orb-drift {
+      0%,100% { transform: translate(0,0) scale(1); }
+      20%      { transform: translate(22px,-26px) scale(1.04); }
+      50%      { transform: translate(-18px,18px) scale(0.97); }
+      75%      { transform: translate(14px,10px) scale(1.02); }
+    }
+    /* Fine dot grid */
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 80%);
+    }
+    /* Horizontal accent line */
+    .hero-line {
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent 5%, var(--gold-dim) 50%, transparent 95%);
+    }
+
+    .hero-inner { position: relative; z-index: 3; max-width: 960px; color: #ffffff; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 8px 18px;
+      background: rgba(60,191,170,0.08);
+      border: 1px solid rgba(60,191,170,0.22);
+      border-radius: var(--r-pill);
+      margin-bottom: 44px;
+      opacity: 0; animation: fup 0.9s var(--ease) 0.15s forwards;
+    }
+    .hero-eyebrow-dot {
+      width: 6px; height: 6px; background: var(--gold); border-radius: 50%;
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.45;transform:scale(1.4)} }
+
+    .hero-h1 {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(36px,5.5vw,76px);
+      font-weight: 700; line-height: 1.12; letter-spacing: -0.025em;
+      margin-bottom: 44px;
+    }
+    .hero-h1 .l1 {
+      display: block; opacity: 0;
+      animation: fup 1.05s var(--ease) 0.32s forwards;
+    }
+    .hero-h1 .l2 {
+      display: block; color: #ffffff; font-weight: 700;
+      opacity: 0; animation: fup 1.05s var(--ease) 0.5s forwards;
+    }
+    @keyframes fup { from{opacity:0;transform:translateY(38px)} to{opacity:1;transform:none} }
+
+    .hero-pills {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px;
+      opacity: 0; animation: fup 0.85s var(--ease) 0.78s forwards;
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 17px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-pill);
+      font-size: 13.5px; color: var(--txt-dim);
+      backdrop-filter: blur(8px);
+    }
+    .pill-dot { width: 6px; height: 6px; background: var(--teal); border-radius: 50%; }
+
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+      opacity: 0; animation: fup 0.85s var(--ease) 1.0s forwards;
+    }
+    .btn-hero {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 34px; background: var(--gold); color: #060E1C;
+      border-radius: var(--r-pill); font-size: 14.5px; font-weight: 600;
+      transition: all var(--t); border: none; cursor: pointer;
+    }
+    .btn-hero svg { transition: transform var(--t); }
+    .btn-hero:hover {
+      background: var(--gold-lt); transform: translateY(-2px);
+      box-shadow: 0 14px 44px rgba(60,191,170,0.42);
+    }
+    .btn-hero:hover svg { transform: translateX(5px); }
+
+    .hero-footnote {
+      margin-top: 32px; font-size: 13.5px; color: var(--txt-muted);
+      opacity: 0; animation: fup 0.8s var(--ease) 1.15s forwards;
+    }
+    .hero-footnote a {
+      color: var(--teal); border-bottom: 1px solid rgba(91,168,216,0.28);
+      transition: border-color var(--t-fast);
+    }
+    .hero-footnote a:hover { border-color: var(--teal); }
+
+    /* Scroll indicator */
+    .scroll-cue {
+      position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      opacity: 0; animation: fup 0.7s var(--ease) 1.6s forwards;
+      z-index: 3;
+    }
+    .scroll-cue-txt {
+      font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--txt-muted);
+    }
+    .scroll-cue-bar {
+      width: 1px; height: 46px;
+      background: linear-gradient(to bottom, var(--gold) 0%, transparent 100%);
+      animation: bar-slide 2.2s ease-in-out infinite;
+    }
+    @keyframes bar-slide {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* =========================================
+       PROBLEM
+    ========================================= */
+    .problem { background: #EAF2F0; color: #2a4a5a; }
+    .problem .problem-h2 { color: #2a4a5a; }
+    .problem .problem-h2 em { color: var(--navy); }
+    .problem .label { color: #2a4a5a !important; }
+    .problem .bul { background: rgba(255,255,255,0.55); border-color: rgba(42,80,128,0.12); color: #2a4a5a; }
+    .problem .bul:hover { background: rgba(255,255,255,0.85); }
+    .problem .bul strong { color: #2a4a5a; }
+    .problem .bul p { color: #2a4a5a; }
+    .problem .problem-body p { color: #2a4a5a; }
+    .problem a { color: var(--navy); }
+    .problem::before { display: none; }
+
+    .problem-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 72px;
+      align-items: start; margin-top: 56px;
+    }
+    .problem-h2 {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(36px,5vw,72px);
+      font-weight: 700; line-height: 1.06; letter-spacing: -0.02em;
+    }
+    .problem-h2 em { color: var(--gold); }
+
+    .bullets { display: flex; flex-direction: column; gap: 14px; margin-top: 36px; }
+    .bul {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 18px 22px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      transition: background var(--t), border-color var(--t);
+    }
+    .bul:hover { background: var(--bg-card-hover); border-color: var(--border-gold); }
+    .bul-dot {
+      width: 7px; height: 7px; background: var(--gold); border-radius: 50%;
+      margin-top: 7px; flex-shrink: 0;
+    }
+    .bul strong { display: block; font-size: 14.5px; font-weight: 600; margin-bottom: 3px; }
+    .bul p { font-size: 13.5px; color: var(--txt-dim); line-height: 1.65; }
+
+    .problem-body { display: flex; flex-direction: column; gap: 22px; }
+    .problem-body p { font-size: 15.5px; line-height: 1.88; color: var(--txt-dim); }
+    .problem-body a {
+      color: var(--teal); border-bottom: 1px solid rgba(91,168,216,0.26);
+      transition: border-color var(--t-fast);
+    }
+    .problem-body a:hover { border-color: var(--teal); }
+
+    /* Stats strip */
+    .stats-strip {
+      display: grid; grid-template-columns: repeat(6,1fr);
+      gap: 1px; background: var(--border);
+      border-radius: var(--r-lg); overflow: hidden;
+      margin-top: 72px;
+    }
+    .stat-cell {
+      background: var(--bg-1); padding: 36px 28px;
+      display: flex; flex-direction: column; gap: 6px;
+      transition: background var(--t);
+    }
+    .stat-cell:hover { background: var(--bg-2); }
+    .stat-num {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(32px,3.5vw,56px); font-weight: 500;
+      color: var(--gold); line-height: 1;
+    }
+    .stat-lbl { font-size: 12px; color: var(--txt-dim); line-height: 1.55; }
+
+    /* =========================================
+       SOLUTION
+    ========================================= */
+    #solution {
+      position: relative;
+      overflow: hidden;
+      background: #06101A;
+    }
+    /* Gradient orb background */
+    .sol-bg {
+      position: absolute; inset: 0; z-index: 0;
+      pointer-events: none;
+    }
+    .sol-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+    }
+    .sol-orb-1 {
+      width: 55vw; height: 55vw;
+      left: -10%; top: 5%;
+      background: radial-gradient(circle, rgba(42,80,128,0.72) 0%, rgba(10,30,60,0.0) 70%);
+      animation: orbDrift1 18s ease-in-out infinite alternate;
+    }
+    .sol-orb-2 {
+      width: 45vw; height: 45vw;
+      left: 20%; top: 10%;
+      background: radial-gradient(circle, rgba(60,191,170,0.50) 0%, rgba(60,191,170,0.0) 68%);
+      animation: orbDrift2 22s ease-in-out infinite alternate;
+    }
+    .sol-orb-3 {
+      width: 28vw; height: 28vw;
+      right: 5%; top: 40%;
+      background: radial-gradient(circle, rgba(91,168,216,0.30) 0%, rgba(91,168,216,0.0) 70%);
+      animation: orbDrift3 26s ease-in-out infinite alternate;
+    }
+    @keyframes orbDrift1 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(6%, 8%) scale(1.12); }
+    }
+    @keyframes orbDrift2 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(-8%, 5%) scale(0.92); }
+    }
+    @keyframes orbDrift3 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(-5%, -10%) scale(1.15); }
+    }
+    /* Ensure solution content sits above background */
+    #solution .container { position: relative; z-index: 1; }
+
+    .solution-head {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 56px; align-items: end; margin-bottom: 64px;
+    }
+    .solution-h2 {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(38px,5.5vw,80px);
+      font-weight: 700; line-height: 1.02; letter-spacing: -0.02em;
+      color: var(--txt);
+    }
+    .solution-h2 em { color: var(--gold); }
+    .solution-sub { font-size: 15.5px; color: var(--txt-dim); line-height: 1.85; }
+    #solution .label { color: var(--gold); }
+    #solution .bc { background: rgba(255,255,255,0.05); border-color: rgba(60,191,170,0.15); }
+    #solution .bc:hover { background: rgba(255,255,255,0.09); box-shadow: 0 8px 36px rgba(60,191,170,0.18), 0 2px 10px rgba(60,191,170,0.10); }
+    #solution .bc-title { color: var(--txt); }
+    #solution .bc-text { color: var(--txt-dim); }
+    #solution .bc-link { color: var(--gold); }
+    #solution .bc-lbl .label { color: var(--gold); }
+
+    /* Bento */
+    .bento {
+      display: grid; grid-template-columns: repeat(2,1fr);
+      grid-template-rows: auto auto; gap: 14px;
+    }
+    .bc {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r-lg); overflow: hidden;
+      transition: background var(--t), border-color var(--t), transform var(--t), box-shadow var(--t);
+    }
+    .bc:hover {
+      background: var(--bg-card-hover); border-color: var(--border-gold);
+      transform: translateY(-4px); box-shadow: var(--sh-card);
+    }
+    .bc-span2 { grid-column: span 2; }
+    .bc-inner { padding: 28px 32px; height: 100%; display: flex; flex-direction: column; }
+    .bc-img { width: 100%; height: 260px; object-fit: cover; }
+    .bc-img-sm { width: 100%; height: 200px; object-fit: cover; }
+    .bc-lbl { margin-bottom: 10px; }
+    .bc-title {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(22px,2.5vw,32px); font-weight: 700; line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .bc-text { font-size: 13.5px; color: var(--txt-dim); line-height: 1.72; flex: 1; }
+    .bc-link {
+      display: inline-flex; align-items: center; gap: 6px; margin-top: 18px;
+      font-size: 13px; font-weight: 500; color: var(--gold);
+      transition: gap var(--t-fast);
+    }
+    .bc-link:hover { gap: 11px; }
+
+    /* Video embed */
+    .video-wrap {
+      position: relative; width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0; margin-top: 28px;
+      border-radius: var(--r-lg); overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .video-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+    /* Thumbnail facade */
+    .yt-thumb {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s var(--ease);
+    }
+    .yt-facade:hover .yt-thumb { transform: scale(1.03); }
+    .yt-play {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 72px; height: 72px;
+      background: none; border: none;
+      cursor: pointer; z-index: 2;
+      transition: transform 0.3s var(--ease), opacity 0.3s ease;
+    }
+    .yt-play svg { width: 100%; height: 100%; }
+    .yt-facade:hover .yt-play { transform: translate(-50%, -50%) scale(1.12); }
+    /* 40% dark overlay on thumbnail */
+    .yt-facade::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.6);
+      pointer-events: none;
+    }
+
+    /* =========================================
+       EXPERIENCE
+    ========================================= */
+    .experience { background: var(--bg-1); }
+    .experience::before { display: none; }
+    .exp-header { text-align: center; max-width: 600px; margin: 0 auto 80px; }
+    .exp-header h2 {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(38px,5.5vw,76px); font-weight: 700;
+      line-height: 1.05; margin-top: 14px;
+    }
+    .exp-header h2 em { color: var(--teal); }
+
+    .exp-split {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 72px; align-items: center; margin-bottom: 80px;
+    }
+    .exp-split:last-child { margin-bottom: 0; }
+    .exp-split.flip .exp-img-wrap { order: 2; }
+    .exp-split.flip .exp-copy    { order: 1; }
+
+    .exp-img-wrap { position: relative; }
+    .exp-img-wrap::before {
+      content: ''; position: absolute; inset: -1px;
+      border-radius: calc(var(--r-lg) + 2px);
+      background: linear-gradient(135deg,
+        rgba(60,191,170,0.28) 0%, transparent 50%, rgba(91,168,216,0.18) 100%);
+      z-index: 0;
+    }
+    .exp-img-wrap a { display: block; position: relative; z-index: 1; }
+    .exp-img {
+      width: 100%; height: 380px; object-fit: cover;
+      border-radius: var(--r-lg); display: block;
+    }
+
+    .exp-copy { display: flex; flex-direction: column; gap: 20px; }
+    .exp-copy h3 {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(32px,4vw,60px); font-weight: 700; line-height: 1.1;
+    }
+    .exp-copy p { font-size: 15.5px; color: var(--txt-dim); line-height: 1.85; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .tag {
+      padding: 5px 13px;
+      background: var(--gold-dim);
+      border: 1px solid rgba(60,191,170,0.18);
+      border-radius: var(--r-pill);
+      font-size: 11.5px; font-weight: 500; color: var(--gold);
+    }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--r-pill);
+      font-size: 13.5px; color: var(--txt-dim);
+      transition: all var(--t); width: fit-content;
+    }
+    .btn-ghost:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card); color: var(--txt);
+    }
+
+    /* =========================================
+       HOW IT WORKS
+    ========================================= */
+    .how { position: relative; background: var(--bg-1); }
+    .how::before { display: none; }
+
+    /* Ambient glow behind image */
+    .how-glow {
+      position: absolute; width: 560px; height: 560px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(60,191,170,0.09) 0%, transparent 70%);
+      left: calc(var(--px) - 60px); top: 50%; transform: translateY(-50%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .how-head {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 72px; align-items: end; margin-bottom: 56px;
+      position: relative; z-index: 1;
+    }
+    .how-h2 {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(36px,5vw,74px); font-weight: 700; line-height: 1.0;
+    }
+    .how-h2 em { color: var(--teal); font-style: normal; }
+    .how-p { font-size: 15.5px; color: var(--txt-dim); line-height: 1.88; }
+
+    .how-layout {
+      display: grid; grid-template-columns: 55% 1fr;
+      gap: 40px; align-items: start;
+      position: relative; z-index: 1;
+    }
+
+    /* Immersive image */
+    .how-img-frame {
+      position: relative; border-radius: 20px;
+      overflow: hidden; aspect-ratio: 4/3;
+    }
+    .how-img-frame::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(6,14,28,0.88) 100%);
+      pointer-events: none;
+    }
+    .how-img-frame img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .how-img-badge {
+      position: absolute; bottom: 22px; left: 22px; z-index: 2;
+      display: flex; align-items: center; gap: 9px;
+      background: rgba(6,14,28,0.55);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(60,191,170,0.32);
+      border-radius: 100px;
+      padding: 10px 18px;
+      font-size: 12px; font-weight: 500; letter-spacing: 0.04em; color: var(--teal);
+      white-space: nowrap;
+    }
+    .how-img-badge::before {
+      content: '';
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 8px var(--teal);
+      flex-shrink: 0;
+      animation: how-dot-pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes how-dot-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.38; transform: scale(0.65); }
+    }
+
+    /* Feature cards */
+    .how-features {
+      display: flex; flex-direction: column; gap: 10px;
+      padding-top: 2px;
+    }
+    .how-feat {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: var(--bg-0);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 22px;
+      transition: border-color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+      cursor: default;
+    }
+    .how-feat:hover {
+      border-color: rgba(60,191,170,0.28);
+      transform: translateX(5px);
+      box-shadow: -4px 0 24px rgba(60,191,170,0.08);
+    }
+    .how-feat-n {
+      width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(60,191,170,0.1);
+      border: 1px solid rgba(60,191,170,0.22);
+      color: var(--teal);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .how-feat-body { padding-top: 3px; }
+    .how-feat-body h3 { font-size: 14.5px; font-weight: 600; margin-bottom: 5px; line-height: 1.3; }
+    .how-feat-body p { font-size: 13px; color: var(--txt-dim); line-height: 1.68; }
+
+    /* =========================================
+       GLOBAL STATS
+    ========================================= */
+    .gstats { overflow: hidden; background: var(--bg-1); }
+    .gstats-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 80% at 100% 50%, rgba(42,80,128,0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 50% at 0% 30%, rgba(60,191,170,0.06) 0%, transparent 55%);
+    }
+    .gstats-inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+
+    /* Left: text */
+    .gstats-text { margin: 0; text-align: left; }
+    .gstats-h2 {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(24px,3vw,42px); font-weight: 700;
+      line-height: 1.3; margin-bottom: 28px;
+      color: var(--txt);
+    }
+    .gstats-p { font-size: 14.5px; color: var(--txt-dim); line-height: 1.85; }
+    .gstats-p + .gstats-p { margin-top: 14px; }
+
+    /* Right: stat cards */
+    .gstats-nums {
+      display: flex; flex-direction: column; gap: 14px;
+      background: none; border-radius: 0; overflow: visible;
+      max-width: 100%; margin: 0;
+    }
+    .gstat {
+      background: var(--bg-0);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--teal);
+      border-radius: 16px;
+      padding: 28px 32px;
+      display: flex; align-items: center; gap: 28px;
+      transition: border-color 0.22s, transform 0.22s, box-shadow 0.22s;
+    }
+    .gstat:hover {
+      border-color: rgba(60,191,170,0.4);
+      border-left-color: var(--teal);
+      transform: translateX(4px);
+      box-shadow: -3px 0 20px rgba(60,191,170,0.1);
+    }
+    .gstat-n {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(38px,4vw,64px); font-weight: 600;
+      color: var(--teal); line-height: 1; display: block;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .gstat-suffix {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.5em; vertical-align: super; font-weight: 500;
+    }
+    .gstat-d {
+      font-size: 13.5px; color: var(--txt-dim);
+      line-height: 1.55; margin-top: 0;
+      border-left: 1px solid var(--border);
+      padding-left: 24px;
+    }
+
+    /* =========================================
+       WAITLIST  (redesigned)
+    ========================================= */
+    .waitlist {
+      position: relative; overflow: hidden;
+      background: var(--bg-0);
+    }
+    .waitlist::before { display: none; }
+    .waitlist-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 55% 90% at 0% 60%, rgba(42,80,128,0.28) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 70% at 100% 20%, rgba(60,191,170,0.08) 0%, transparent 55%);
+    }
+    .waitlist-inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 72px; align-items: center;
+      max-width: var(--max); margin: 0 auto;
+    }
+    .waitlist-left { display: flex; flex-direction: column; }
+    .waitlist-h2 {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(44px,5.5vw,84px); font-weight: 700;
+      line-height: 0.96; letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+    .waitlist-h2 em { color: var(--gold); font-style: normal; }
+    .waitlist-p {
+      font-size: 15px; color: var(--txt-dim); line-height: 1.82;
+      margin-bottom: 32px;
+    }
+    .waitlist-trust {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 40px;
+    }
+    .waitlist-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 100px;
+      font-size: 12.5px; color: var(--txt-dim);
+    }
+    .waitlist-pill-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); flex-shrink: 0;
+    }
+    .waitlist-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+    .btn-waitlist {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 36px; background: var(--gold); color: #060E1C;
+      border-radius: var(--r-pill); font-size: 15px; font-weight: 700;
+      letter-spacing: 0.01em; transition: all var(--t);
+    }
+    .btn-waitlist svg { transition: transform var(--t); }
+    .btn-waitlist:hover {
+      background: var(--gold-lt); transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(201,168,76,0.35);
+    }
+    .btn-waitlist:hover svg { transform: translateX(5px); }
+    .waitlist-sub { font-size: 12.5px; color: var(--txt-muted); }
+    .waitlist-sub a { color: var(--teal); border-bottom: 1px solid rgba(60,191,170,0.25); }
+    .waitlist-right {
+      position: relative;
+    }
+    .waitlist-right-glow {
+      position: absolute; width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(60,191,170,0.1) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      pointer-events: none; z-index: 0;
+    }
+    .waitlist-right .laptop-mockup {
+      margin: 0; max-width: 100%; position: relative; z-index: 1;
+    }
+    .waitlist-laptop-img {
+      width: 100%; height: auto; display: block;
+      position: relative; z-index: 1;
+      filter: drop-shadow(0 24px 60px rgba(0,0,0,0.5));
+    }
+
+    /* Laptop mockup */
+    .laptop-mockup {
+      margin: 40px auto 44px;
+      max-width: 720px;
+      position: relative;
+    }
+    .laptop-shell {
+      background: linear-gradient(160deg, #1e2533 0%, #141926 100%);
+      border-radius: 16px 16px 0 0;
+      padding: 14px 14px 0;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-bottom: none;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.6),
+        0 32px 80px rgba(0,0,0,0.6),
+        0 8px 20px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+      position: relative;
+    }
+    .laptop-shell::before {
+      content: '';
+      display: block;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      margin: 0 auto 10px;
+    }
+    .laptop-screen {
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+      aspect-ratio: 16/10;
+      background: #f0f4f8;
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+    }
+    .laptop-screen-iframe {
+      position: absolute; inset: 0;
+      width: 250%; height: 250%;
+      transform: scale(0.4);
+      transform-origin: top left;
+      border: none;
+      pointer-events: none;
+    }
+    .laptop-base {
+      background: linear-gradient(180deg, #1a2030 0%, #111622 100%);
+      height: 20px;
+      border-radius: 0 0 4px 4px;
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-top: none;
+      position: relative;
+    }
+    .laptop-base::after {
+      content: '';
+      position: absolute; bottom: -10px; left: 50%;
+      transform: translateX(-50%);
+      width: 38%; height: 10px;
+      background: linear-gradient(180deg, #0e1520 0%, #090d16 100%);
+      border-radius: 0 0 8px 8px;
+      border: 1.5px solid rgba(255,255,255,0.06);
+      border-top: none;
+    }
+    .laptop-stand {
+      height: 10px;
+    }
+
+
+    /* =========================================
+       FOOTER
+    ========================================= */
+    footer {
+      background: var(--bg-1);
+      border-top: 1px solid var(--border);
+      padding: 72px var(--px) 36px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 56px; max-width: var(--max); margin: 0 auto;
+      padding-bottom: 56px;
+      border-bottom: 1px solid var(--border);
+    }
+    .footer-brand-row {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+    }
+    .footer-brand-row img { height: 38px; }
+    .footer-brand-name {
+      font-family: 'Raleway', sans-serif;
+      font-size: 20px; font-weight: 500;
+    }
+    .footer-brand-sub { font-size: 10px; color: var(--gold); letter-spacing: 0.06em; }
+    .footer-tagline {
+      font-size: 13.5px; color: var(--txt-dim); line-height: 1.72;
+      max-width: 270px; margin-bottom: 28px;
+    }
+    .footer-offices { display: flex; flex-direction: column; gap: 18px; }
+    .office-lbl {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
+    }
+    .office-addr { font-size: 12.5px; color: var(--txt-dim); line-height: 1.55; }
+    .office-email {
+      font-size: 12.5px; color: var(--teal); display: inline-block; margin-top: 3px;
+      transition: color var(--t-fast);
+    }
+    .office-email:hover { color: #6DD4C6; }
+
+    .fcol h4 {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+      color: var(--txt); margin-bottom: 18px;
+    }
+    .fcol ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .fcol ul a {
+      font-size: 12.5px; color: var(--txt-dim);
+      transition: color var(--t-fast);
+    }
+    .fcol ul a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 14px;
+      max-width: var(--max); margin: 0 auto;
+      padding-top: 28px;
+    }
+    .footer-copy { font-size: 12.5px; color: var(--txt-muted); }
+    .footer-legal { display: flex; gap: 22px; }
+    .footer-legal a {
+      font-size: 12.5px; color: var(--txt-muted);
+      transition: color var(--t-fast);
+    }
+    .footer-legal a:hover { color: var(--txt-dim); }
+
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+    @media (max-width: 1080px) {
+      .nav-links, .nav > .btn-nav { display: none; }
+      .burger { display: flex; }
+      .problem-grid, .solution-head, .exp-split,
+      .how-head, .how-layout { grid-template-columns: 1fr; gap: 36px; }
+      .how-glow { display: none; }
+      .gstats-inner { grid-template-columns: 1fr; gap: 48px; }
+      .gstats-text { text-align: center; }
+      .waitlist-inner { grid-template-columns: 1fr; gap: 48px; }
+      .waitlist-actions { align-items: center; }
+      .waitlist-left { text-align: center; }
+      .waitlist-trust { justify-content: center; }
+      .exp-split.flip .exp-img-wrap,
+      .exp-split.flip .exp-copy { order: unset; }
+      .bento { grid-template-columns: 1fr; }
+      .bc-span2 { grid-column: span 1; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 38px; }
+    }
+    @media (max-width: 680px) {
+      .stats-strip { grid-template-columns: repeat(2,1fr); }
+      .gstats-nums { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .hero-pills { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 420px) {
+      .stats-strip { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- =============================================
+     NAVIGATION
+============================================= -->
+<nav class="nav" id="nav">
+  <a href="https://kin-keepers.com/" class="nav-brand">
+    <img src="logo-full.png" alt="Kin-Keepers logo">
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="https://kin-keepers.com/">Home</a></li>
+    <li><a href="https://kin-keepers.com/home/about/">About Us</a></li>
+    <li><a href="https://kin-keepers.com/products-in-development-for-you/">Cognitive Detection &amp; Therapies</a></li>
+    <li><a href="https://kin-keepers.com/summer-internships/">Student Internships</a></li>
+    <li><a href="https://kin-keepers.com/blog/">Blog</a></li>
+    <li><a href="https://kin-keepers.com/contact-us/">Contact Us</a></li>
+  </ul>
+
+  <a href="https://remotecarers.net/worker/" class="btn-nav" target="_blank" rel="noopener">
+    Join Waitlist
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+      <path d="M2.5 6.5H10.5M10.5 6.5L7 3M10.5 6.5L7 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+
+  <button class="burger" id="burger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile navigation overlay -->
+<div class="mob-nav" id="mob-nav">
+  <a href="https://kin-keepers.com/">Home</a>
+  <a href="https://kin-keepers.com/home/about/">About Us</a>
+  <a href="https://kin-keepers.com/products-in-development-for-you/">Cognitive Detection &amp; Therapies</a>
+  <a href="https://kin-keepers.com/summer-internships/">Student Internships</a>
+  <a href="https://kin-keepers.com/blog/">Blog</a>
+  <a href="https://kin-keepers.com/contact-us/">Contact Us</a>
+  <a href="https://remotecarers.net/worker/" target="_blank" rel="noopener" style="color:var(--gold);margin-top:10px;">Join Waitlist →</a>
+</div>
+
+<!-- =============================================
+     HERO
+============================================= -->
+<section class="hero" id="home">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto">
+    <source src="hero-bg.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-canvas">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-line"></div>
+  </div>
+
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        <span class="label" style="font-size:10px;">Augmented Intelligence for Seniors and Carers</span>
+      </div>
+
+      <h1 class="hero-h1">
+        <span class="l1">Seniors have a story to tell.</span>
+        <span class="l2">With AI we give them a Voice</span>
+      </h1>
+
+      <div class="hero-pills">
+        <div class="pill"><div class="pill-dot"></div>Are you living alone?</div>
+        <div class="pill"><div class="pill-dot"></div>In need of Respite Care help?</div>
+        <div class="pill"><div class="pill-dot"></div>Facing Caregiver burnout?</div>
+      </div>
+
+      <div class="hero-actions">
+        <a href="https://youtu.be/ZOA1v4-2Fos" class="btn-hero" target="_blank" rel="noopener">
+          Click: Another Inconvenient Truth
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <p class="hero-footnote">
+        Take this <a href="https://artemciy.gitlab.io/loneliness-scale/" target="_blank" rel="noopener">short online test</a> to find out where you fall on the UCLA loneliness scale.
+      </p>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <span class="scroll-cue-txt">Scroll</span>
+    <div class="scroll-cue-bar"></div>
+  </div>
+</section>
+
+<!-- =============================================
+     THE PROBLEM
+============================================= -->
+<section class="section problem" id="problem">
+  <div class="container">
+
+    <div class="rv">
+      <span class="label">The Problem</span>
+    </div>
+
+    <div class="problem-grid">
+      <!-- Left: headline + bullets -->
+      <div class="rv-l">
+        <h2 class="problem-h2"><em>Loneliness</em> —<br>and not being<br>understood</h2>
+
+        <div class="bullets">
+          <div class="bul">
+            <div class="bul-dot"></div>
+            <div>
+              <strong>Aging in Place</strong>
+              <p>44% are women living alone.</p>
+            </div>
+          </div>
+          <div class="bul">
+            <div class="bul-dot"></div>
+            <div>
+              <strong>Living in Institutions</strong>
+              <p>61% of older people living in care homes are moderately lonely. 35% are severely lonely; most live in depression.</p>
+            </div>
+          </div>
+          <div class="bul">
+            <div class="bul-dot"></div>
+            <div>
+              <strong>Estrangement</strong>
+              <p>27% of families in the U.S. live closed off from one another.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: body text -->
+      <div class="problem-body rv-r">
+        <p>American society rests on an assumption that families take care of their own. But "15 million Americans 50 and older didn't have any close family — spouses, partners, or children — in 2015, the latest year for which reliable estimates are available." Most lived alone.</p>
+        <p>There are 12 million adults in the U.S. living without a spouse or partner. Many are single by choice, others are widowed, or divorced. They may be childless or, not in touch with their children or other family members. <a href="https://youtu.be/fV3O8qz6Y5g" target="_blank" rel="noopener">Consider the Gen Silent LGBTQ community</a>. By 2060, that number is expected to <a href="https://kffhealthnews.org/news/article/lgbtq-aging-adults-going-it-alone-relive-trauma/" target="_blank" rel="noopener">swell to 21 million</a>.</p>
+        <p>Beyond that, millions of seniors living alone aren't geographically close to adult children or other family members. Or they have difficult, strained relationships that keep them from asking for support.</p>
+        <p>Moreover, according to a study published by the National Academies of Sciences, Engineering, and Medicine in 2020, "as many as 43 percent of all adults aged sixty and older in the United States report feeling lonely—and these are the pre-pandemic numbers."</p>
+      </div>
+    </div>
+
+    <!-- Statistics strip -->
+
+  </div>
+</section>
+
+<!-- =============================================
+     THE SOLUTION
+============================================= -->
+<section class="section" id="solution">
+  <div class="sol-bg" aria-hidden="true">
+    <div class="sol-orb sol-orb-1"></div>
+    <div class="sol-orb sol-orb-2"></div>
+    <div class="sol-orb sol-orb-3"></div>
+  </div>
+  <div class="container">
+
+    <div class="solution-head">
+      <div class="rv">
+        <span class="label" style="display:block;margin-bottom:16px;">The Solution</span>
+        <h2 class="solution-h2">Affordable Caregivers<br>from Afar, aided with<br><em>AI assistants</em></h2>
+      </div>
+      <div class="rv d2">
+        <p class="solution-sub">Just open the map and touch a person's face to engage. Works like an UberCARE for care workers. Interview and then activate a caregiver from afar. Filter the map by name, age, gender, language, ratings, hourly rate and more.</p>
+      </div>
+    </div>
+
+    <div class="bento">
+      <!-- Featured full-width card -->
+      <div class="bc bc-span2 rv">
+        <div class="bc-inner">
+          <div class="bc-lbl"><span class="label">UberCARE Platform</span></div>
+          <h3 class="bc-title">Connect with a Caregiver from Anywhere</h3>
+          <p class="bc-text">Just open the map and touch a person's face to engage. Works like an UberCARE for care workers. Interview and then activate a caregiver from afar. Filter the map by name, age, gender, language, ratings, hourly rate and more.</p>
+          <!-- Video thumbnail player -->
+          <div class="video-wrap yt-facade" id="yt-player" data-vid="wagxhYhSYlU">
+            <img
+              src="video-thumb.png"
+              alt="UberCARE Platform Demo"
+              class="yt-thumb"
+              loading="lazy">
+            <button class="yt-play" aria-label="Play video">
+              <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="36" cy="36" r="36" fill="rgba(0,0,0,0.55)"/>
+                <polygon points="28,20 56,36 28,52" fill="white"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Second row cards -->
+      <div class="bc rv d1">
+        <a href="https://www.youtube.com/watch?v=DdNrXxz3wtY&t=5s" target="_blank" rel="noopener">
+          <img src="affordable-caregiving.png" alt="Affordable Caregiving from Afar" class="bc-img" loading="lazy">
+        </a>
+        <div class="bc-inner" style="padding-top:22px;">
+          <div class="bc-lbl"><span class="label">Remote Caregiving</span></div>
+          <h3 class="bc-title">Affordable Caregiving from Afar</h3>
+          <p class="bc-text">Connect seniors with compassionate remote caregivers at accessible rates, bridging the gap across any distance.</p>
+        </div>
+      </div>
+
+      <div class="bc rv d2">
+        <img src="the-experience.png" alt="The Experience" class="bc-img" loading="lazy">
+        <div class="bc-inner" style="padding-top:22px;">
+          <div class="bc-lbl"><span class="label">Platform Experience</span></div>
+          <h3 class="bc-title">The Experience</h3>
+          <p class="bc-text">A seamless, human-centered interface designed to make remote caregiving effortless for seniors and caregivers alike.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =============================================
+     THE EXPERIENCE / AI FEATURES
+============================================= -->
+<section class="section experience" id="experience">
+  <div class="container">
+
+    <div class="exp-header rv">
+      <span class="label" style="display:block;margin-bottom:14px;">The Experience</span>
+      <h2>Have fun working with <em>AI&nbsp;Assistants</em></h2>
+    </div>
+
+    <!-- Row 1: Agentic AI Templates -->
+    <div class="exp-split rv">
+      <div class="exp-img-wrap">
+        <a href="https://www.dementiacarecentral.com/wp-content/uploads/2009/02/dementia-effect-on-speech.mp4" target="_blank" rel="noopener">
+          <img src="ai-superpowers.jpg" alt="Agentic AI Templates" class="exp-img" loading="lazy">
+        </a>
+      </div>
+      <div class="exp-copy">
+        <span class="label">AI Superpowers</span>
+        <h3>Agentic AI Templates</h3>
+        <p>Next let Caregiver's superpowers shine by joining their Agentic AI templates to data in your Family Circle Vault.</p>
+        <div class="tags">
+          <span class="tag">Agentic AI Templates</span>
+          <span class="tag">Family Circle Vault</span>
+          <span class="tag">AI Assistants</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Family Circle Application -->
+    <div class="exp-split flip rv d1">
+      <div class="exp-copy">
+        <span class="label">Desktop Application</span>
+        <h3>Animated with a Powerful AI Family Circle Desktop Application</h3>
+        <p>We give you a free Small Language Model that runs on a home laptop, a Table or a Phone. It also provides information to Smart Glasses. Not connected to the cloud. The tool runs disconnected from the Internet.</p>
+        <p>The application runs in two modes: Chatbot (in any language) or AI Services. Both work with touch text or voice.</p>
+        <div class="tags">
+          <span class="tag">Small Language Model</span>
+          <span class="tag">Smart Glasses</span>
+          <span class="tag">Offline Capable</span>
+        </div>
+        <a href="https://a.co/4Y8DLRR" class="btn-ghost" target="_blank" rel="noopener" style="margin-top:8px;">
+          Download the Family Circle →
+        </a>
+      </div>
+      <div class="exp-img-wrap">
+        <a href="https://a.co/4Y8DLRR" target="_blank" rel="noopener">
+          <img src="desktop-application.png" alt="Download the Family Circle" class="exp-img" loading="lazy">
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =============================================
+     HOW IT WORKS
+============================================= -->
+<section class="section how" id="how-it-works">
+  <div class="how-glow"></div>
+  <div class="container">
+
+    <div class="how-head">
+      <div class="rv">
+        <span class="label" style="display:block;margin-bottom:16px;">How it Works</span>
+        <h2 class="how-h2"><em>Digital Twin</em><br>&amp; Cognitive<br>Prosthetic</h2>
+      </div>
+      <div class="rv d2">
+        <p class="how-p">People with Mild Cognitive Impairment or of dementia struggle to be understood. While engaged with our tools, the voice of the elder is used to develop a Digital Twin, which serves as a Cognitive Prosthetic. It facilitates words and understanding between elders and caregivers.</p>
+      </div>
+    </div>
+
+    <div class="how-layout">
+      <div class="how-img-frame rv-l">
+        <img src="cognitive-prosthetic.jpg" alt="Why this works (Cognitive Prosthetic)" loading="lazy">
+        <div class="how-img-badge">Digital Twin Technology</div>
+      </div>
+
+      <div class="how-features rv-r">
+        <div class="how-feat">
+          <div class="how-feat-n">01</div>
+          <div class="how-feat-body">
+            <h3>Affordable Caregivers from Afar</h3>
+            <p>Interview and activate a caregiver remotely from anywhere in the world, aided by AI assistants.</p>
+          </div>
+        </div>
+        <div class="how-feat">
+          <div class="how-feat-n">02</div>
+          <div class="how-feat-body">
+            <h3>Family Circle Vault</h3>
+            <p>Join Caregiver's Agentic AI templates to data in your Family Circle Vault for a personalised experience.</p>
+          </div>
+        </div>
+        <div class="how-feat">
+          <div class="how-feat-n">03</div>
+          <div class="how-feat-body">
+            <h3>Digital Twin</h3>
+            <p>The elder's voice develops a Digital Twin — a Cognitive Prosthetic that bridges understanding between elders and caregivers.</p>
+          </div>
+        </div>
+        <div class="how-feat">
+          <div class="how-feat-n">04</div>
+          <div class="how-feat-body">
+            <h3>Small Language Model</h3>
+            <p>A free Small Language Model runs locally on a home laptop, tablet, phone, or Smart Glasses — offline, no cloud required.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =============================================
+     GLOBAL STATISTICS
+============================================= -->
+<section class="section gstats" id="stats">
+  <div class="gstats-glow"></div>
+  <div class="container">
+    <div class="gstats-inner">
+
+      <div class="gstats-text rv">
+        <span class="label" style="display:block;margin-bottom:20px;">The Scale of the Challenge</span>
+        <p class="gstats-h2">The number of people ages 65 and older in the United States has increased steadily during the past century.</p>
+        <p class="gstats-p">Growth has accelerated since 2011 when baby boomers first started to turn 65. Between 2020 and 2060, the number of older adults is projected to increase by 69 percent, from 56.0 million to 94.7 million. The number of people ages 85 and older is projected to nearly triple from 6.7 million in 2020 to 19.0 million by 2060.</p>
+        <p class="gstats-p">There's more. In 2020, for the first time in human history, elderlies outnumbered children. The number is projected to grow by 40% before 2030 up to 1.4 Billion. Among them, many are living lonely far away from their children, and are suffering from a shortage of healthcare professionals.</p>
+      </div>
+
+      <div class="gstats-nums rv d2">
+        <div class="gstat">
+          <span class="gstat-n"><span class="counter" data-target="56">0</span><span class="gstat-suffix">M</span></span>
+          <p class="gstat-d">Older adults in the U.S. in 2020 — a number growing every year</p>
+        </div>
+        <div class="gstat">
+          <span class="gstat-n"><span class="counter" data-target="94.7">0</span><span class="gstat-suffix">M</span></span>
+          <p class="gstat-d">Projected older adults by 2060 — a 69% increase from today</p>
+        </div>
+        <div class="gstat">
+          <span class="gstat-n">1.4<span class="gstat-suffix">B</span></span>
+          <p class="gstat-d">Elderly worldwide projected by 2030 — a 40% surge in one decade</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     JOIN THE WAITLIST
+============================================= -->
+<section class="section waitlist" id="waitlist">
+  <div class="waitlist-glow"></div>
+  <div class="container">
+    <div class="waitlist-inner">
+
+      <!-- Left: content -->
+      <div class="waitlist-left rv">
+        <span class="label" style="display:block;margin-bottom:20px;">Become a Remote Caregiver</span>
+        <h2 class="waitlist-h2">Join the<br><em>Waitlist</em></h2>
+        <p class="waitlist-p">Download our UberCARE like application to apply to be a remote caregiver and start making money from home.</p>
+
+        <div class="waitlist-trust">
+          <span class="waitlist-pill"><span class="waitlist-pill-dot"></span>Free to join</span>
+          <span class="waitlist-pill"><span class="waitlist-pill-dot"></span>Work remotely</span>
+          <span class="waitlist-pill"><span class="waitlist-pill-dot"></span>Set your own rate</span>
+        </div>
+
+        <div class="waitlist-actions">
+          <a href="https://remotecarers.net/worker/" class="btn-waitlist" target="_blank" rel="noopener">
+            Apply to be a Remote Caregiver
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M3.75 9H14.25M14.25 9L9.75 4.5M14.25 9L9.75 13.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <p class="waitlist-sub">
+            Visit <a href="https://remotecarers.net/worker/" target="_blank" rel="noopener">remotecarers.net/worker</a> to get started
+          </p>
+        </div>
+      </div>
+
+      <!-- Right: laptop image -->
+      <div class="waitlist-right rv d2">
+        <div class="waitlist-right-glow"></div>
+        <img src="ubercare-laptop.png" alt="UberCARE for Caregivers on MacBook Pro" class="waitlist-laptop-img" loading="lazy">
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     FOOTER
+============================================= -->
+<footer>
+  <div class="footer-grid">
+    <!-- Brand + offices -->
+    <div>
+      <div class="footer-brand-row">
+        <img src="cropped-Kin-Keepers.png" alt="Kin-Keepers" loading="lazy">
+        <div>
+          <div class="footer-brand-name">Kin-Keepers</div>
+          <div class="footer-brand-sub">Augmented Intelligence for Seniors and Carers</div>
+        </div>
+      </div>
+      <p class="footer-tagline">Bridging the gap between seniors and compassionate care through the power of augmented intelligence.</p>
+      <div class="footer-offices">
+        <div>
+          <div class="office-lbl">West Coast</div>
+          <div class="office-addr">O2G Ventures, LLC.<br>Redwood City, CA 94063</div>
+          <a href="mailto:help@Kin-Keepers.com" class="office-email">help@Kin-Keepers.com</a>
+        </div>
+        <div>
+          <div class="office-lbl">East Coast</div>
+          <div class="office-addr">O2G Ventures, LLC.<br>Glen Allen, VA 23059</div>
+          <a href="mailto:contact@Kin-Keepers.com" class="office-email">contact@Kin-Keepers.com</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="fcol">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="https://kin-keepers.com/">Home</a></li>
+        <li><a href="https://kin-keepers.com/home/about/">About Us</a></li>
+        <li><a href="https://kin-keepers.com/products-in-development-for-you/">Cognitive Detection &amp; Therapies</a></li>
+        <li><a href="https://kin-keepers.com/summer-internships/">Student Internships</a></li>
+        <li><a href="https://kin-keepers.com/blog/">Blog</a></li>
+        <li><a href="https://kin-keepers.com/contact-us/">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <!-- Resources -->
+    <div class="fcol">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="https://kin-keepers.com/faq-page/">FAQ Page</a></li>
+        <li><a href="https://kin-keepers.com/testimonials-and-review-page/">Testimonials &amp; Reviews</a></li>
+        <li><a href="https://kin-keepers.com/blog/">Blogs</a></li>
+        <li><a href="https://kin-keepers.com/sitemap/">Sitemap</a></li>
+        <li><a href="https://kin-keepers.com/privacy-policy/">Privacy Policy</a></li>
+      </ul>
+    </div>
+
+    <!-- Get Started -->
+    <div class="fcol">
+      <h4>Get Started</h4>
+      <ul>
+        <li><a href="https://remotecarers.net/worker/">Join the Waitlist</a></li>
+        <li><a href="https://artemciy.gitlab.io/loneliness-scale/">Loneliness Scale Test</a></li>
+        <li><a href="https://a.co/4Y8DLRR">Download Family Circle</a></li>
+        <li><a href="https://kin-keepers.com/contact-us/">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copy">Copyright &copy; 2024 <a href="https://kin-keepers.com/" style="color:inherit;">O2G Ventures LLC.</a></p>
+    <div class="footer-legal">
+      <a href="https://kin-keepers.com/privacy-policy/">Privacy Policy</a>
+      <a href="https://kin-keepers.com/contact-us/">Contact</a>
+      <a href="https://kin-keepers.com/sitemap/">Sitemap</a>
+    </div>
+  </div>
+</footer>
+
+<!-- =============================================
+     JAVASCRIPT
+============================================= -->
+<script>
+  /* --- Nav scroll glass effect --- */
+  const navEl = document.getElementById('nav');
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    navEl.classList.toggle('stuck', y > 50);
+    lastY = y;
+  }, { passive: true });
+
+  /* --- Mobile nav toggle --- */
+  const burgerBtn = document.getElementById('burger');
+  const mobNav    = document.getElementById('mob-nav');
+  burgerBtn.addEventListener('click', () => {
+    const open = burgerBtn.classList.toggle('open');
+    mobNav.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  mobNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    burgerBtn.classList.remove('open');
+    mobNav.classList.remove('open');
+    document.body.style.overflow = '';
+  }));
+
+  /* --- Scroll reveal (Intersection Observer) --- */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -64px 0px' });
+
+  document.querySelectorAll('.rv, .rv-l, .rv-r').forEach(el => revealObs.observe(el));
+
+  /* --- Animated number counters --- */
+  function runCounter(el) {
+    const target  = parseFloat(el.dataset.target);
+    const decimal = (target % 1 !== 0);
+    const dur     = 2200;
+    const t0      = performance.now();
+    const step = (now) => {
+      const p   = Math.min((now - t0) / dur, 1);
+      const e   = 1 - Math.pow(1 - p, 3); // cubic ease-out
+      const val = target * e;
+      el.textContent = decimal ? val.toFixed(1) : Math.round(val);
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        runCounter(e.target);
+        counterObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.6 });
+
+  document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
+
+  /* --- Parallax orbs (lightweight, passive) --- */
+  let tick = false;
+  window.addEventListener('scroll', () => {
+    if (!tick) {
+      requestAnimationFrame(() => {
+        const y  = window.scrollY;
+        const a  = document.querySelector('.orb-a');
+        const b  = document.querySelector('.orb-b');
+        const c  = document.querySelector('.orb-c');
+        if (a) a.style.transform = `translateY(${y * 0.14}px)`;
+        if (b) b.style.transform = `translateY(${y * -0.09}px)`;
+        if (c) c.style.transform = `translateY(${y * 0.07}px)`;
+        tick = false;
+      });
+      tick = true;
+    }
+  }, { passive: true });
+
+  /* --- YouTube facade: click thumbnail to load iframe --- */
+  const ytPlayer = document.getElementById('yt-player');
+  if (ytPlayer) {
+    ytPlayer.addEventListener('click', () => {
+      const vid = ytPlayer.dataset.vid;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${vid}?autoplay=1&rel=0`;
+      iframe.title = 'UberCARE Platform Demo';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;';
+      ytPlayer.innerHTML = '';
+      ytPlayer.appendChild(iframe);
+      ytPlayer.style.cursor = 'default';
+    });
+  }
+
+  /* --- Smooth anchor scroll --- */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
+</body>
+</html>
